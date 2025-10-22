@@ -1,0 +1,11 @@
+# Basic requirements
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+jupyter
+ipykernal
+
+#
+ipywidgets
