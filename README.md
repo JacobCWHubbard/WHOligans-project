@@ -9,7 +9,7 @@ Developing different machine learning models to predict life expectancy using WH
 * Krish
 
 ## Project Structure
-* `notebooks/'` - Exploratory analysis and model development
+* `notebooks/` - Exploratory analysis and model development
 * `src/` - Reusable Python modules
 * `data/` - Data and Metadata files
 
@@ -22,6 +22,11 @@ Developing different machine learning models to predict life expectancy using WH
 ```
 
 2. **Insert later**
+
+### Data Setup
+The data file is not tracked by Git. If you want to work with this repo you should:
+1. Obtain the dataset from Digital Futures
+2. Place the `Life Expectancy Data.csv` file in the `data/` folder
 
 ## Models
 * Model 1: A data sensitive model
