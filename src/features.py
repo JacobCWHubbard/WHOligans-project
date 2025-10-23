@@ -11,6 +11,17 @@ def splitting_data(df, target):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size =0.2, random_state=42)
     return X_train, X_test, y_train, y_test
 
+# log transformer
+def log_transform(df, name):
+    df[name+'_log'] = np.log1p(df[name])
+    df.drop(columns = name, inplace=True)
+
+# exp transformer    
+def exp_transform(df, name):
+    df[name+'_exp'] = np.exp(df[name])
+    df.drop(columns = name, inplace=True)
+
+
 # Function to feature engineer
 def feature_engineering(df):
 
@@ -28,40 +39,58 @@ def feature_engineering(df):
     # One-hot encode 'Regions'
     df_local = pd.get_dummies(df_local, columns=['Region'], drop_first=True, prefix='', prefix_sep='', dtype='int')
     df_local = pd.DataFrame(df_local)
-    
+
+    # Convert zero values of 'Alcohol_consumption' to 0.001 to allow logarithmic transformation
+    # df_local.loc[df_local['Alcohol_consumption'] < 0.002, 'Alcohol_consumption'] = 0.001
+
     # Some features have a strong positive skew.
     # Calculate the log of these (if they exist in the dataframe) to better predict countries with very low values.
     # Then drop the original column.
-    if 'Under_five_deaths' in df_local.columns:
-        df_local['Under_five_deaths_log'] = np.log1p(df_local['Under_five_deaths'])
-        df_local.drop(columns='Under_five_deaths', inplace=True)
-    if 'Incidents_HIV' in df_local.columns:
-        df_local['Incidents_HIV_log'] = np.log1p(df_local['Incidents_HIV'])
-        df_local.drop(columns='Incidents_HIV', inplace=True)
-    if 'GDP_per_capita' in df_local.columns:
-        df_local['GDP_per_capita_log'] = np.log1p(df_local['GDP_per_capita'])
-        df_local.drop(columns='GDP_per_capita', inplace=True)
-    if 'Population_mln' in df_local.columns:
-        df_local['Population_mln_log'] = np.log1p(df_local['Population_mln'])
-        df_local.drop(columns='Population_mln', inplace=True)
-    if 'Thinness_metric' in df_local.columns:
-        df_local['Thinness_metric_log'] = np.log1p(df_local['Thinness_metric'])  # Using a slightly different transformation to reduce the impact of outliers
-        df_local.drop(columns='Thinness_metric', inplace=True)
+    for feature in ['Under_five_deaths',
+                    'Incidents_HIV',
+                    'GDP_per_capita',
+                    'Population_mln',
+                    'Thinness_metric']:
+        if feature in df_local.columns:
+            log_transform(df_local, feature)
+
+ #   if 'Under_five_deaths' in df_local.columns:
+  #      df_local['Under_five_deaths_log'] = np.log1p(df_local['Under_five_deaths'])
+   #     df_local.drop(columns='Under_five_deaths', inplace=True)
+#    if 'Incidents_HIV' in df_local.columns:
+#        df_local['Incidents_HIV_log'] = np.log1p(df_local['Incidents_HIV'])
+#        df_local.drop(columns='Incidents_HIV', inplace=True)
+#    if 'GDP_per_capita' in df_local.columns:
+#        df_local['GDP_per_capita_log'] = np.log1p(df_local['GDP_per_capita'])
+#        df_local.drop(columns='GDP_per_capita', inplace=True)
+#    if 'Population_mln' in df_local.columns:
+#        df_local['Population_mln_log'] = np.log1p(df_local['Population_mln'])
+#        df_local.drop(columns='Population_mln', inplace=True)
+#    if 'Thinness_metric' in df_local.columns:
+#        df_local['Thinness_metric_log'] = np.log1p(df_local['Thinness_metric'])  # Using a slightly different transformation to reduce the impact of outliers
+#        df_local.drop(columns='Thinness_metric', inplace=True)
     
     # All four immunisation rate features have a strong negative skew.
     # If they exist in the dataframe, calculate the exponent of these to better predict countries with very high rates of immunisation.
-    if 'Hepatitis_B' in df_local.columns:
-        df_local['Hepatitis_B_exp'] = np.exp(df_local['Hepatitis_B']/100)
-        df_local.drop(columns='Hepatitis_B', inplace=True)
-    if 'Measles' in df_local.columns:
-        df_local['Measles_exp'] = np.exp(df_local['Measles']/100)
-        df_local.drop(columns='Measles', inplace=True)
-    if 'Polio' in df_local.columns:
-        df_local['Polio_exp'] = np.exp(df_local['Polio']/100)
-        df_local.drop(columns='Polio', inplace=True)
-    if 'Diphtheria' in df_local.columns:
-        df_local['Diphtheria_exp'] = np.exp(df_local['Diphtheria']/100)
-        df_local.drop(columns='Diphtheria', inplace=True)
+
+    for feature in ['Hepatitis_B',
+                    'Measles',
+                    'Polio',
+                    'Diphtheria']:
+        if feature in df_local.columns:
+            exp_transform(df_local, feature)
+#    if 'Hepatitis_B' in df_local.columns:
+#        df_local['Hepatitis_B_exp'] = np.exp(df_local['Hepatitis_B']/100)
+#        df_local.drop(columns='Hepatitis_B', inplace=True)
+#    if 'Measles' in df_local.columns:
+#        df_local['Measles_exp'] = np.exp(df_local['Measles']/100)
+#        df_local.drop(columns='Measles', inplace=True)
+#    if 'Polio' in df_local.columns:
+#        df_local['Polio_exp'] = np.exp(df_local['Polio']/100)
+#        df_local.drop(columns='Polio', inplace=True)
+#    if 'Diphtheria' in df_local.columns:
+#        df_local['Diphtheria_exp'] = np.exp(df_local['Diphtheria']/100)
+#        df_local.drop(columns='Diphtheria', inplace=True)
     
     return df_local
 
