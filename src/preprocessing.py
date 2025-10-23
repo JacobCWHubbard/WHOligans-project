@@ -5,4 +5,3 @@ import pandas as pd
 def load_data():
     df = pd.read_csv('../data/life_expectancy.csv')
     return df
-
