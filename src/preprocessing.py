@@ -6,8 +6,7 @@ def load_data():
     df = pd.read_csv('../data/life_expectancy.csv')
     return df
 
-# Performs Train-Test splitting
-
-# Performs our feature engineering
-
-# Performs scaling
+# Select features
+def select_features(response):
+    if response == 'y':
+        None
