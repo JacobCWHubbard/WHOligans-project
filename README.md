@@ -15,7 +15,7 @@ Developing different machine learning models to predict life expectancy using WH
 * `WHOligans_presentation` - Our presentation document
 
 ## Setup Instructions
-1. **Navigate to desired location**
+1. **Navigate to desired location**\
 In the terminal head to your chosen location to download the project
 2. **Clone the repository**
 ```bash
@@ -24,10 +24,11 @@ In the terminal head to your chosen location to download the project
 ```
 3. **Create and activate a virtual environment**
 ```bash
-   python3 -m venv venv
+   python -m venv venv # replace python with python3 if needed
+   \
    source venv/bin/activate  # Linux/Mac
    # or
-   venv\scripts\activate  # Windows
+   venv\Scripts\activate  # Windows
 ```
 4. **Ensure you have the requirements**
 ```bash
