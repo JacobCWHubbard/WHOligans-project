@@ -12,14 +12,18 @@ def train_model(y, X):
 def full_pipeline(features):
     df_local = load_data()[features]
     X_train, X_test, y_train, y_test = splitting_data(df_local, 'Life_expectancy')
+
     X_train_fe = feature_engineering(X_train)
-    X_train_fe = scaling(X_train_fe)
+    X_train_fe, scaler = scaling(X_train_fe)
     X_train_fe = add_constant_column(X_train_fe)
+
     X_test_fe = feature_engineering(X_test)
-    X_test_fe = scaling(X_test_fe)
+    X_test_fe, _ = scaling(X_test_fe, scaler) # Reuse the fitted scaled
     X_test_fe = add_constant_column(X_test_fe)
     results = train_model(y_train, X_train_fe)
-    return X_train_fe, X_test_fe, y_train, y_test, results
+
+    training_columns = list(X_train_fe.columns)
+    return X_train_fe, X_test_fe, y_train, y_test, results, scaler, training_columns
 
 # Calculate RMSE
 def calculate_rmse(actual, prediction):

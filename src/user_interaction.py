@@ -65,10 +65,11 @@ def model_decider():
 
 # Collect user values
 def collect_values(df, response, features):
-    if 'Life_expectancy' in features:
-        features.remove('Life_expectancy')
+    features_local = features.copy() # Need python 3.3 >==
+    if 'Life_expectancy' in features_local:
+        features_local.remove('Life_expectancy')
     user_values = {}
-    for feature in features:
+    for feature in features_local:
         print(f"Please enter the value for {feature}. {expected_input(df,feature)}")
         while True:
             try:
@@ -81,7 +82,7 @@ def collect_values(df, response, features):
             except:
                 print("\nPlease insure your input is an accepted value")
     
-    return pd.DataFrame(data = user_values, index = features)
+    return pd.DataFrame([user_values])
 
 # Explain excepted inputs
 def expected_input(df, feature):

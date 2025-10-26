@@ -95,21 +95,20 @@ def feature_engineering(df):
     return df_local
 
 # A scaling function
-def scaling(df):
+def scaling(df, scaler = None):
 
     # Make a copy of the DF
     df_local = df.copy()
     
-    # Initialise scaler object
-    scaler = RobustScaler()
-    
-    # Fit the data
-    scaler.fit(df_local)
+    # If no scaler provided, create and fit a new one
+    if scaler is None:
+        scaler = RobustScaler()
+        scaler.fit(df_local)
 
     # Normalise the data; store as a DataFrame
     df_scaled = pd.DataFrame(scaler.transform(df_local), columns = df_local.columns, index=df_local.index)
     
-    return df_scaled
+    return df_scaled, scaler # returns scaled data and scaler (so that the same scaling can be used on new data)
 
 def add_constant_column(df):
     return sm.add_constant(df)
