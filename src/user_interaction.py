@@ -64,13 +64,11 @@ def model_decider():
 
 
 # Collect user values
-def collect_values(df, response, sensitive_features, non_sensitive_features):
-    if response == 'n':
-        required_features = sensitive_features
-    else:
-        required_features = non_sensitive_features
+def collect_values(df, response, features):
+    if 'Life_expectancy' in features:
+        features.remove('Life_expectancy')
     user_values = {}
-    for feature in required_features:
+    for feature in features:
         print(f"Please enter the value for {feature}. {expected_input(df,feature)}")
         while True:
             try:
@@ -83,16 +81,17 @@ def collect_values(df, response, sensitive_features, non_sensitive_features):
             except:
                 print("\nPlease insure your input is an accepted value")
     
-    return user_values
+    return pd.DataFrame(data = user_values, index = features)
 
 # Explain excepted inputs
 def expected_input(df, feature):
+    print(f"Current feature is {feature}")
     if feature == 'Region':
         return f"Pick from the following list {list(df.Region.unique())}"
     elif feature == 'Economy_status_Developed':
         return "Enter 1 for yes, and 0 for no"
     else:
-        return "Please enter a number"
+        return f"Please enter a number, expected range is {df[feature].min()} to {df[feature].max()}"
 
 # Check if user input is valid
 def valid_feature_input(df, feature, value, user_values):
