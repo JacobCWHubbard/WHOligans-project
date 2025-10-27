@@ -70,7 +70,7 @@ def collect_values(df, response, features):
         features_local.remove('Life_expectancy')
     user_values = {}
     for feature in features_local:
-        print(f"Please enter the value for {feature}. {expected_input(df,feature)}")
+        print(f"{write_prompt(feature)} {expected_input(df,feature)}")
         while True:
             try:
                 user_values[feature] = input(f"Enter value for {feature}: ")
@@ -84,15 +84,35 @@ def collect_values(df, response, features):
     
     return pd.DataFrame([user_values])
 
+# Prompt for each feature
+def write_prompt(feature):
+    prompts = {
+        'Region': 'Please enter the region in which the country is located.',
+        'Under_five_deaths': 'Please enter the under-five mortality rate (per 1,000 people).',
+        'Adult_mortality': 'Please enter the adult mortality rate (per 1,000 people aged 15-60 years).',
+        'GDP_per_capita': 'Please enter the country\'s GDP per capita (in USD).',
+        'Schooling': 'Please enter the average number of years of schooling.',
+        'Economy_status_Developed': 'Please determine whether the country is economically developed.',
+        'Alcohol_consumption': 'Please enter the annual alcohol consumption (in litres per person aged 15+).',
+        'Hepatitis_B': 'Please enter the Hepatitis B immunisation coverage among 1-year-olds (%).',
+        'Measles': 'Please enter the Measles immunisation coverage (%).',
+        'BMI': 'Please enter the country\'s average Body Mass Index.',
+        'Polio': 'Please enter the Polio (Pol3) immunization coverage among 1-year-olds (%).',
+        'Diphtheria': 'Please enter the Diphtheria (DTP3) immunization coverage among 1-year-olds (%).',
+        'Incidents_HIV': 'Please enter the under-five deaths due to HIV/AIDS (per 1,000 live births).',
+        'Thinness_ten_nineteen_years': 'Please enter the prevalence of thinness among children and adolescents aged 10 to 19 (%).',
+        'Thinness_five_nine_years': 'Please enter the prevalence of thinness among children for Age 5 to 9 (%).'
+        }
+    return prompts[feature]
+
 # Explain excepted inputs
 def expected_input(df, feature):
-    print(f"Current feature is {feature}")
     if feature == 'Region':
         return f"Pick from the following list {list(df.Region.unique())}"
     elif feature == 'Economy_status_Developed':
         return "Enter 1 for yes, and 0 for no"
     else:
-        return f"Please enter a number, expected range is {df[feature].min()} to {df[feature].max()}"
+        return f"Expected range is {df[feature].min()} to {df[feature].max()}"
 
 # Check if user input is valid
 def valid_feature_input(df, feature, value, user_values):
