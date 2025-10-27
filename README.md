@@ -12,7 +12,8 @@ Developing different machine learning models to predict life expectancy using WH
 * `notebooks/` - Exploratory analysis and model development
 * `src/` - Reusable Python modules
 * `data/` - Data and Metadata files
-* `WHOligans_presentation` - Our presentation document
+* `presentation/` - Presentation notebooks, final_presentation being the main notebook
+* `visualisations/` - A selection of visualisations used in our presentation
 
 ## Setup Instructions
 1. **Navigate to desired location**\
@@ -25,7 +26,7 @@ In the terminal head to your chosen location to download the project
 3. **Create and activate a virtual environment**
 ```bash
    python -m venv venv # replace python with python3 if needed
-   \
+   
    source venv/bin/activate  # Linux/Mac
    # or
    venv\Scripts\activate  # Windows
@@ -45,6 +46,5 @@ The data file is not tracked by Git. If you want to work with this repo you shou
 * Elaborate model: A data insensitive model
 
 ## Results
-* Best Model 1 accuracy: [TBD]
-* Best Model 2 accuracy: [TBD]
-* Key findings: [TBD]
+* Best Minimal Model accuracy: [1.41]
+* Best Elaborate accuracy: [1.39]
