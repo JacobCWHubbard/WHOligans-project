@@ -81,7 +81,7 @@ def collect_values(df, response, features):
                     break
             except:
                 print("\nPlease insure your input is an accepted value")
-    
+    print(f"\nHere is a copy of your responses:\n {user_values}")
     return pd.DataFrame([user_values])
 
 # Prompt for each feature
@@ -143,7 +143,7 @@ def valid_num(df, feature, value):
         return True
     else:
         print("Your value is out of the expected range. Please enter Y to confirm or Q to re-enter your value")
-        confirmation = input("Y to confirm, q to re-enter")
+        confirmation = input("Y to confirm, q to re-enter: ")
         if confirmation.lower() == 'y':
             return True
         else:
